@@ -11,6 +11,9 @@ if (!defined('DOKU_INC')) die();
 
 class syntax_plugin_mcitem extends DokuWiki_Syntax_Plugin {
 	
+	/**
+	 * @return array Plugin info
+	 */
 	public function getInfo() {
 		return array(
 				'author' => 'drcrazy',
@@ -18,7 +21,7 @@ class syntax_plugin_mcitem extends DokuWiki_Syntax_Plugin {
 				'date'   => '2017-05-17',
 				'name'   => 'Minecraft Item Plugin',
 				'desc'   => 'Adds Minecraft item link with icon to Dokuwiki.',
-				'url'    => ''
+				'url'    => 'https://github.com/drcrazy/mcitem'
 		);
 	}
 	
@@ -104,8 +107,11 @@ class syntax_plugin_mcitem extends DokuWiki_Syntax_Plugin {
         	case DOKU_LEXER_MATCHED :
         		break;
         	case DOKU_LEXER_UNMATCHED :
-        		$renderer->doc .= $renderer->internalmedia($data[1], $data[2], null, 24, null, 'cache', 'nolink', false);
-        		$renderer->doc .= $renderer->internallink($data[1], $data[2]);
+        		$imageName = $data[1] . '.png';
+        		$renderer->internalmedia($imageName, $data[2], null, 24, null, 'cache', 'nolink', false);
+        		$renderer->strong_open();
+        		$renderer->internallink($data[1], $data[2]);
+        		$renderer->strong_close();
         		break;
         	case DOKU_LEXER_EXIT :
         		break;
