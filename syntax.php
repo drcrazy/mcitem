@@ -26,7 +26,7 @@ class syntax_plugin_mcitem extends DokuWiki_Syntax_Plugin {
      * @return int Sort order - Low numbers go before high numbers
      */
     public function getSort() {
-        return 999;
+        return 55;
     }
 
     /**
@@ -81,7 +81,7 @@ class syntax_plugin_mcitem extends DokuWiki_Syntax_Plugin {
     public function render($mode, Doku_Renderer $renderer, $data) {
         if($mode != 'xhtml') return false;
         $renderer->doc .= '{{:mods:';
-        $renderer->doc .= $data;
+        $renderer->doc .= $data[0];
         $renderer->doc .= '.png?nolink&24|}}';
         
 
