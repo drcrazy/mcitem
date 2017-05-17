@@ -10,11 +10,23 @@
 if (!defined('DOKU_INC')) die();
 
 class syntax_plugin_mcitem extends DokuWiki_Syntax_Plugin {
+	
+	public function getInfo() {
+		return array(
+				'author' => 'drcrazy',
+				'email'  => 'hcb@wowhcb.ru',
+				'date'   => '2017-05-17',
+				'name'   => 'Minecraft Item Plugin',
+				'desc'   => 'Adds Minecraft item link with icon to Dokuwiki.',
+				'url'    => ''
+		);
+	}
+	
     /**
      * @return string Syntax mode type
      */
     public function getType() {
-        return 'protected';
+        return 'substition';
     }
     /**
      * @return string Paragraph type
@@ -59,7 +71,12 @@ class syntax_plugin_mcitem extends DokuWiki_Syntax_Plugin {
         	case DOKU_LEXER_MATCHED :
         		break;
         	case DOKU_LEXER_UNMATCHED :
-        		$data[]=$match;
+        		$match = htmlspecialchars($match);
+        		$rawName = 'mods:' . $match;
+        		$match = explode(':', $match);
+        		$prettyName = str_replace('_', ' ', $match[1]);
+        		$prettyName = ucwords($prettyName, ' ');
+        		$data = array($state, $rawName, $prettyName);
         		break;
         	case DOKU_LEXER_EXIT :
         		break;
@@ -80,9 +97,21 @@ class syntax_plugin_mcitem extends DokuWiki_Syntax_Plugin {
      */
     public function render($mode, Doku_Renderer $renderer, $data) {
         if($mode != 'xhtml') return false;
-        $renderer->doc .= '{{:mods:';
-        $renderer->doc .= $data[0];
-        $renderer->doc .= '.png?nolink&24|}}';
+        $state = $data[0];
+        switch ($state) {
+        	case DOKU_LEXER_ENTER :
+        		break;
+        	case DOKU_LEXER_MATCHED :
+        		break;
+        	case DOKU_LEXER_UNMATCHED :
+        		$renderer->doc .= $renderer->internalmedia($data[1], $data[2], null, 24, null, 'cache', 'nolink', false);
+        		$renderer->doc .= $renderer->internallink($data[1], $data[2]);
+        		break;
+        	case DOKU_LEXER_EXIT :
+        		break;
+        	case DOKU_LEXER_SPECIAL :
+        		break;
+        }
         
 
         return true;
