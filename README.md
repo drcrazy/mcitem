@@ -27,6 +27,6 @@ Every image of a block or item is named exactly like its description page in the
 
 Anywhere on a wiki page you can add the mcitem tag and specify item inside this tag in format 'modname':'itemname', for example, 'minecraft:redstone' which will result in a link to your wiki page about redstone with redstone icon prepended.
 
-##Credits
+## Credits
 
 Plugin inspiration and major part of readme is from mcrecipe Dokuwiki plugin made by [cryxli](https://github.com/cryxli)
