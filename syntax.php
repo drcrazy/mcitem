@@ -78,7 +78,7 @@ class syntax_plugin_mcitem extends DokuWiki_Syntax_Plugin {
         		$rawName = 'mods:' . $match;
         		$match = explode(':', $match);
         		$prettyName = str_replace('_', ' ', $match[1]);
-        		$prettyName = ucwords($prettyName, ' ');
+        		$prettyName = ucwords($prettyName);
         		$data = array($state, $rawName, $prettyName);
         		break;
         	case DOKU_LEXER_EXIT :
@@ -107,11 +107,20 @@ class syntax_plugin_mcitem extends DokuWiki_Syntax_Plugin {
         	case DOKU_LEXER_MATCHED :
         		break;
         	case DOKU_LEXER_UNMATCHED :
-        		$imageName = $data[1] . '.png';
-        		$renderer->internalmedia($imageName, $data[2], null, 24, null, 'cache', 'nolink', false);
-        		$renderer->strong_open();
+        		$showIcon = $this->getConf('showIcon');
+        		if ($showIcon === 1) {
+        			$imageName = $data[1] . '.png';
+        			$renderer->internalmedia($imageName, $data[2], null, $this->getConf('iconWidth'), null, 'cache', 'nolink', false);
+        			
+        		}
+        		$boldLink = $this->getConf('boldLink');
+        		if ($boldLink === 1) {
+        			$renderer->strong_open();
+        		}
         		$renderer->internallink($data[1], $data[2]);
-        		$renderer->strong_close();
+        		if ($boldLink === 1) {
+        			$renderer->strong_close();
+        		}   		
         		break;
         	case DOKU_LEXER_EXIT :
         		break;
