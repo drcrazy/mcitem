@@ -4,6 +4,7 @@
  *
  * @license GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
  * @author  drcrazy <hcb@wowhcb.ru>
+ * some code borrowed from dokuwiki 
  */
 
 // must be run within Dokuwiki
@@ -109,8 +110,15 @@ class syntax_plugin_mcitem extends DokuWiki_Syntax_Plugin {
         	case DOKU_LEXER_UNMATCHED :
         		$showIcon = $this->getConf('showIcon');
         		if ($showIcon === 1) {
+        			global $ID;
+        			
         			$imageName = $data[1] . '.png';
-        			$renderer->internalmedia($imageName, $data[2], null, $this->getConf('iconWidth'), null, 'cache', 'nolink', false);
+        			list($src, $hash) = explode('#', $src, 2);
+        			resolve_mediaid(getNS($ID), $imageName, $exists, $this->date_at, true);
+        			
+        			if ($exists) {
+        				$renderer->internalmedia($imageName, $data[2], null, $this->getConf('iconWidth'), null, 'cache', 'nolink', FALSE);
+        			}
         			
         		}
         		$boldLink = $this->getConf('boldLink');
