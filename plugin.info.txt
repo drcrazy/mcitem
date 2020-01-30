@@ -1,7 +1,7 @@
 base   mcitem
 author drcrazy
 email  hcb@wowhcb.ru
-date   2017-05-17
+date   2020-01-30
 name   Minecraft item plugin
 desc   Adds Minecraft item link with icon
 url    https://github.com/drcrazy/mcitem
